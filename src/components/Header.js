@@ -13,28 +13,22 @@ const Header = () => {
             <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
               <span className="text-white font-bold">🎵</span>
             </div>
-            <h1 className="text-2xl font-bold">AudioHub</h1>
+            <h1 className="text-2xl font-bold">AWS Daily Updates</h1>
           </Link>
           {/* <nav className="hidden md:flex space-x-8">
-            <Link 
-              to="/" 
+            <Link
+              to="/aws-podcast/"
               className="hover:text-blue-300 transition-colors px-3 py-2 rounded-md text-sm font-medium"
             >
               Home
             </Link>
-            <Link 
-              to="/categories" 
+            <Link
+              to="/aws-podcast/about"
               className="hover:text-blue-300 transition-colors px-3 py-2 rounded-md text-sm font-medium"
             >
-              Categories
+              About
             </Link>
-            <Link 
-              to="/favorites" 
-              className="hover:text-blue-300 transition-colors px-3 py-2 rounded-md text-sm font-medium"
-            >
-              Favorites
-            </Link>
-          </nav> */}
+          </nav>
           <div className="md:hidden">
             <button className="text-white hover:text-blue-300">
               <svg
@@ -51,7 +45,7 @@ const Header = () => {
                 />
               </svg>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

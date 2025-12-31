@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import AudioList from './pages/AudioList';
 import AudioDetail from './pages/AudioDetail';
+import About from './pages/About';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<AudioList />} />
             <Route path="/audio/:id" element={<AudioDetail />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </main>
         <Footer />

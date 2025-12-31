@@ -7,7 +7,7 @@ import AudioDetail from './pages/AudioDetail';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/aws-podcast">
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
         <main className="flex-1 py-8">

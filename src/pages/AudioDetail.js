@@ -61,16 +61,16 @@ const AudioDetail = () => {
         await navigator.share(shareData);
       } else {
         await navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard!');
+        alert("Link copied to clipboard!");
       }
     } catch (error) {
-      console.error('Error sharing:', error);
+      console.error("Error sharing:", error);
     }
   };
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
         </div>
@@ -80,7 +80,7 @@ const AudioDetail = () => {
 
   if (error || !audio) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <div className="text-red-500 text-xl mb-4">
             {error || "Audio not found"}
@@ -97,7 +97,7 @@ const AudioDetail = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <Link
         to="/"
         className="inline-flex items-center text-blue-500 hover:text-blue-600 mb-8 transition-colors"
@@ -144,9 +144,7 @@ const AudioDetail = () => {
           </h1>
 
           <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-gray-500">
-            <span>
-              Published: {audio.publishDate}
-            </span>
+            <span>Published: {audio.publishDate}</span>
           </div>
 
           {/* Audio Player */}
@@ -296,7 +294,7 @@ const AudioDetail = () => {
 
           {/* Action Buttons */}
           <div className="flex justify-center">
-            <button 
+            <button
               onClick={handleShare}
               className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors flex items-center space-x-2"
             >

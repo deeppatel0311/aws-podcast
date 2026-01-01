@@ -95,9 +95,9 @@ const AudioList = () => {
                   {audio.title}
                 </h3>
 
-                <p className="text-gray-600 text-sm mb-6 line-clamp-3 flex-1">
+                {/* <p className="text-gray-600 text-sm mb-6 line-clamp-3 flex-1">
                   {audio.description}
-                </p>
+                </p> */}
 
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">

@@ -9,6 +9,20 @@ const AudioDetail = () => {
   const [error, setError] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioRef, setAudioRef] = useState(null);
+  const [visualizerBars, setVisualizerBars] = useState(Array(20).fill(8));
+
+  // Animate visualizer bars when playing
+  useEffect(() => {
+    let interval;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setVisualizerBars((prev) => prev.map(() => Math.random() * 40 + 10));
+      }, 150);
+    } else {
+      setVisualizerBars(Array(20).fill(8));
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   useEffect(() => {
     const fetchAudio = async () => {
@@ -131,9 +145,6 @@ const AudioDetail = () => {
               <span className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium">
                 {audio.category}
               </span>
-              <span className="bg-black/70 text-white px-3 py-1 rounded-full text-sm">
-                {audio.duration}
-              </span>
             </div>
           </div>
         </div>
@@ -142,6 +153,15 @@ const AudioDetail = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
             {audio.title}
           </h1>
+
+          {/* Description */}
+          {audio.description && (
+            <div className="mb-6">
+              <p className="text-gray-700 text-lg leading-relaxed">
+                {audio.description}
+              </p>
+            </div>
+          )}
 
           <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-gray-500">
             <span>Published: {audio.publishDate}</span>
@@ -166,66 +186,84 @@ const AudioDetail = () => {
               Audio Player
             </h3>
 
-            <div className="bg-white rounded-lg p-6 border-2 border-dashed border-gray-300">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 text-center">
+              {/* Large Play Button */}
+              <div className="mb-6">
+                <button
+                  onClick={handlePlayPause}
+                  className={`w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+                    isPlaying 
+                      ? 'bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700' 
+                      : 'bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+                  }`}
+                >
+                  <svg
+                    className="w-8 h-8 text-white ml-1"
+                    fill={isPlaying ? "none" : "currentColor"}
+                    stroke={isPlaying ? "currentColor" : "none"}
+                    viewBox="0 0 24 24"
+                  >
+                    {isPlaying ? (
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 9v6m4-6v6"
+                      />
+                    ) : (
+                      <path d="M8 5v14l11-7z" />
+                    )}
+                  </svg>
+                </button>
+              </div>
+
+              {/* Audio Visualizer */}
+              <div className="flex items-center justify-center mb-6">
+                <div className="flex items-end space-x-1 h-16">
+                  {visualizerBars.map((height, i) => (
+                    <div
+                      key={i}
+                      className="w-2 bg-gradient-to-t from-blue-500 to-blue-300 rounded-full transition-all duration-200 ease-out"
+                      style={{
+                        height: `${height}px`
+                      }}
+                    ></div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Status and Controls */}
+              <div className="space-y-4">
+                <p className={`text-lg font-medium ${
+                  isPlaying ? 'text-green-700' : 'text-gray-600'
+                }`}>
+                  {isPlaying ? '♪ Now Playing' : '♫ Ready to Play'}
+                </p>
+                
+                <div className="flex justify-center space-x-3">
+                  <button
+                    onClick={handleStop}
+                    className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors font-medium flex items-center space-x-2"
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M6 6h12v12H6z" />
+                    </svg>
+                    <span>Stop</span>
+                  </button>
+                </div>
+              </div>
+
               <audio
                 ref={setAudioRef}
                 src={audio.audioUrl}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
-                onEnded={() => setIsPlaying(false)}
-                className="w-full mb-4"
-                controls
+                onEnded={() => {
+                  setIsPlaying(false);
+                  setVisualizerBars(Array(20).fill(8));
+                }}
+                style={{ display: "none" }}
               />
-
-              <div className="flex justify-center space-x-4">
-                <button
-                  onClick={handlePlayPause}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors flex items-center space-x-2"
-                >
-                  {isPlaying ? (
-                    <>
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10 9v6m4-6v6"
-                        />
-                      </svg>
-                      <span>Pause</span>
-                    </>
-                  ) : (
-                    <>
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                      <span>Play</span>
-                    </>
-                  )}
-                </button>
-                <button
-                  onClick={handleStop}
-                  className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-lg transition-colors flex items-center space-x-2"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M6 6h12v12H6z" />
-                  </svg>
-                  <span>Stop</span>
-                </button>
-              </div>
             </div>
           </div>
 

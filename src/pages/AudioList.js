@@ -60,53 +60,61 @@ const AudioList = () => {
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {audioList.map((audio) => (
           <div
             key={audio.id}
-            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col sm:flex-row"
+            className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col"
           >
-            <div className="w-full sm:w-24 h-20 sm:h-24 flex items-center justify-center flex-shrink-0">
+            <div className="relative">
               <img
                 src={audio.thumbnail}
                 alt={audio.title}
-                className="w-16 h-16 object-cover rounded"
+                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
               />
-            </div>
-
-            <div className="flex-1 p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center">
-              <div className="flex-1 mb-3 sm:mb-0">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {audio.title}
-                </h3>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                    {audio.category}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="flex items-center gap-2">
+                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                    AWS Updates
                   </span>
-
                   {audio.itemCount && (
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
-                      {audio.itemCount} items
+                    <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                      {audio.itemCount} News
                     </span>
                   )}
-                  <span>{audio.duration}</span>
-                  <span>{audio.publishDate}</span>
                 </div>
               </div>
+            </div>
 
-              <Link
-                to={`/audio/${audio.id}`}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors font-medium w-full sm:w-auto text-center sm:ml-4 flex items-center justify-center space-x-2"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+            <div className="p-6 flex flex-col flex-1">
+              <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                {audio.title}
+              </h3>
+
+              <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-1">
+                {audio.description}
+              </p>
+
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-500">
+                  {audio.publishDate}
+                </span>
+
+                <Link
+                  to={`/audio/${audio.id}`}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-200 font-medium flex items-center space-x-2 shadow-md hover:shadow-lg group"
                 >
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-                <span>Listen</span>
-              </Link>
+                  <svg
+                    className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                  <span>Listen</span>
+                </Link>
+              </div>
             </div>
           </div>
         ))}

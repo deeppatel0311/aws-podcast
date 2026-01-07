@@ -95,7 +95,7 @@ const AudioDetail = () => {
       
       return () => clearTimeout(timer);
     }
-  }, [audioRef, audio?.audioUrl]); // Remove isPlaying from dependencies
+  }, [audioRef, audio, isPlaying, volume]); // Include all dependencies
 
   const handlePlayPause = () => {
     if (audioRef) {

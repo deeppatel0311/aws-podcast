@@ -84,7 +84,6 @@ const AudioDetail = () => {
       // Add a small delay to ensure audio element is ready
       const timer = setTimeout(async () => {
         try {
-          audioRef.volume = volume;
           await audioRef.play();
           setIsPlaying(true);
         } catch (error) {

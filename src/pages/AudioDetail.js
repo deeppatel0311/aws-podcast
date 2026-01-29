@@ -27,7 +27,7 @@ const sliderStyles = `
 `;
 
 // Inject styles
-if (typeof document !== 'undefined') {
+if (typeof document !== "undefined") {
   const styleSheet = document.createElement("style");
   styleSheet.innerText = sliderStyles;
   document.head.appendChild(styleSheet);
@@ -80,7 +80,7 @@ const AudioDetail = () => {
 
   // Auto-play audio when component loads and audio is available
   useEffect(() => {
-    if (audioRef && audio && audio.audioUrl && !isPlaying) {
+    if (audioRef && audio && audio.audioUrl) {
       // Add a small delay to ensure audio element is ready
       const timer = setTimeout(async () => {
         try {
@@ -92,10 +92,10 @@ const AudioDetail = () => {
           // Show a user-friendly message
         }
       }, 500);
-      
+
       return () => clearTimeout(timer);
     }
-  }, [audioRef, audio, isPlaying, volume]); // Include all dependencies
+  }, [audioRef, audio]); // Include all dependencies
 
   const handlePlayPause = () => {
     if (audioRef) {
@@ -251,17 +251,29 @@ const AudioDetail = () => {
 
             <div className="flex flex-wrap items-center gap-6 mb-10 text-gray-500">
               <div className="flex items-center space-x-2">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
                 </svg>
-                <span className="font-medium">Published: {audio.publishDate}</span>
+                <span className="font-medium">
+                  Published: {audio.publishDate}
+                </span>
               </div>
               {audio.itemCount && (
                 <div className="flex items-center space-x-2">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
                   </svg>
-                  <span className="font-medium">{audio.itemCount} News Items</span>
+                  <span className="font-medium">
+                    {audio.itemCount} News Items
+                  </span>
                 </div>
               )}
             </div>
@@ -270,8 +282,12 @@ const AudioDetail = () => {
             <div className="bg-gradient-to-r from-gray-50 to-blue-50 border border-gray-200 rounded-3xl p-8 mb-10 shadow-inner">
               <h3 className="text-2xl font-bold mb-8 flex items-center text-slate-800">
                 <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                  <svg
+                    className="w-6 h-6 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
                   </svg>
                 </div>
                 Audio Player
@@ -301,8 +317,8 @@ const AudioDetail = () => {
                         <path
                           d="M15 12H19"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
+                          strokeWidth="2"
+                          strokeLinecap="round"
                         />
                       </svg>
                     </button>
@@ -356,8 +372,8 @@ const AudioDetail = () => {
                         <path
                           d="M17 10V14M15 12H19"
                           stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
+                          strokeWidth="2"
+                          strokeLinecap="round"
                         />
                       </svg>
                     </button>
@@ -365,8 +381,8 @@ const AudioDetail = () => {
 
                   {/* Audio Visualizer with Progress */}
                   <div className="flex flex-col items-center space-y-6">
-                    <div 
-                      className="flex items-end justify-center space-x-2 h-24 px-8 cursor-pointer" 
+                    <div
+                      className="flex items-end justify-center space-x-2 h-24 px-8 cursor-pointer"
                       onClick={(e) => {
                         if (audioRef && duration) {
                           const rect = e.currentTarget.getBoundingClientRect();
@@ -382,14 +398,14 @@ const AudioDetail = () => {
                         const progress = duration ? currentTime / duration : 0;
                         const barProgress = i / visualizerBars.length;
                         const isActive = barProgress <= progress;
-                        
+
                         return (
                           <div
                             key={i}
                             className={`w-1.5 rounded-full transition-all duration-300 ease-out hover:scale-110 ${
-                              isActive 
-                                ? 'bg-gradient-to-t from-slate-800 via-slate-700 to-slate-600' 
-                                : 'bg-gradient-to-t from-gray-300 via-gray-200 to-gray-100'
+                              isActive
+                                ? "bg-gradient-to-t from-slate-800 via-slate-700 to-slate-600"
+                                : "bg-gradient-to-t from-gray-300 via-gray-200 to-gray-100"
                             }`}
                             style={{
                               height: `${isPlaying ? height : 8}px`,

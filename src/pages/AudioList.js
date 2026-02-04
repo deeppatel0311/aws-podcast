@@ -6,13 +6,19 @@ const AudioList = () => {
   const [audioList, setAudioList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+  const itemsPerPage = 9;
 
   useEffect(() => {
     const fetchAudioList = async () => {
       try {
         setLoading(true);
-        const data = await audioService.getAudioList();
-        setAudioList(data);
+        const result = await audioService.getAudioList(currentPage, itemsPerPage);
+        setAudioList(result.data);
+        setTotalPages(result.totalPages);
+        setTotal(result.total);
       } catch (err) {
         setError("Failed to load audio content");
       } finally {
@@ -21,7 +27,12 @@ const AudioList = () => {
     };
 
     fetchAudioList();
-  }, []);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (loading) {
     return (
@@ -193,6 +204,53 @@ const AudioList = () => {
             >
               Refresh
             </button>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center space-x-2 mt-12">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-xl bg-white/80 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-slate-800 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg"
+            >
+              Previous
+            </button>
+            
+            {[...Array(totalPages)].map((_, index) => {
+              const page = index + 1;
+              return (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-4 py-2 rounded-xl transition-all duration-300 shadow-lg ${
+                    currentPage === page
+                      ? 'bg-gradient-to-r from-slate-800 to-slate-700 text-white'
+                      : 'bg-white/80 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+            
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-xl bg-white/80 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-slate-800 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+        {/* Results Info */}
+        {audioList.length > 0 && (
+          <div className="text-center mt-8">
+            <p className="text-gray-600">
+              Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, total)} of {total} podcasts
+            </p>
           </div>
         )}
       </div>
